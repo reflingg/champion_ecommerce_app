@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { FiShoppingCart, FiUser, FiMenu, FiX, FiMessageSquare, FiGrid, FiLogOut } from 'react-icons/fi';
-import { GiWoodenChair } from 'react-icons/gi';
+import logo from '../asset/images/champion furniture logo.png';
 
 const Navbar = () => {
     const { user, logout, isAdmin } = useAuth();
@@ -19,7 +19,7 @@ const Navbar = () => {
         <nav className="navbar">
             <div className="navbar-container">
                 <Link to="/" className="navbar-logo">
-                    <GiWoodenChair />
+                    <img src={logo} alt="Champion Furniture" className="navbar-logo-img" />
                     Champion
                 </Link>
 
