@@ -20,7 +20,7 @@ const Navbar = () => {
             <div className="navbar-container">
                 <Link to="/" className="navbar-logo">
                     <img src={logo} alt="Champion Furniture" className="navbar-logo-img" />
-                    Champion
+                    Champion Furniture
                 </Link>
 
                 <button className="mobile-menu-btn" onClick={() => setMobileOpen(!mobileOpen)}>
