@@ -189,7 +189,7 @@ router.get('/', protect, admin, async (req, res) => {
     try {
         const { data: orders, error } = await supabase
             .from('orders')
-            .select('*, users(name, email), order_items(*)')
+            .select('*, users(name, email), order_items(*, products(id, name, price, images, category))')
             .order('created_at', { ascending: false });
 
         if (error) throw error;
@@ -208,10 +208,11 @@ router.get('/', protect, admin, async (req, res) => {
             paymentMethod: o.payment_method,
             items: (o.order_items || []).map(i => ({
                 _id: i.id,
+                product: i.products ? { _id: i.products.id, ...i.products, price: parseFloat(i.products.price) } : null,
                 name: i.name,
                 price: parseFloat(i.price),
                 quantity: i.quantity,
-                image: i.image,
+                image: i.image || (i.products?.images?.[0] || ''),
             })),
             createdAt: o.created_at,
         }));

@@ -434,26 +434,3 @@ const AdminProducts = ({ showToast }) => {
 };
 
 export default AdminProducts;
-                            </button >
-                          </div >
-                        ))}
-                      </div >
-                    </>
-                  )}
-                </div >
-  <div className="modal-actions">
-    <button type="button" className="btn btn-outline" onClick={() => setShowModal(false)}>Cancel</button>
-    <button type="submit" className="btn btn-primary">
-      {editingProduct ? 'Update' : 'Create'} Product
-    </button>
-  </div>
-              </form >
-            </div >
-          </div >
-        )}
-      </div >
-    </div >
-  );
-};
-
-export default AdminProducts;
