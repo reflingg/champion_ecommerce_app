@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { FiShoppingCart, FiUser, FiMenu, FiX, FiMessageSquare, FiGrid } from 'react-icons/fi';
+import { FiShoppingCart, FiUser, FiMenu, FiX, FiMessageSquare, FiGrid, FiLogOut } from 'react-icons/fi';
 import { GiWoodenChair } from 'react-icons/gi';
 
 const Navbar = () => {
@@ -12,6 +12,8 @@ const Navbar = () => {
     const location = useLocation();
 
     const isActive = (path) => location.pathname === path ? 'active' : '';
+
+    const firstName = user?.name ? user.name.split(' ')[0] : '';
 
     return (
         <nav className="navbar">
@@ -32,6 +34,10 @@ const Navbar = () => {
 
                     {user ? (
                         <>
+                            <div className="navbar-user-greeting">
+                                <FiUser />
+                                Hi, {firstName}
+                            </div>
                             <Link to="/cart" className={`${isActive('/cart')} cart-badge`} onClick={() => setMobileOpen(false)}>
                                 <FiShoppingCart />
                                 Cart
@@ -51,6 +57,7 @@ const Navbar = () => {
                                 </Link>
                             )}
                             <button onClick={() => { logout(); setMobileOpen(false); }}>
+                                <FiLogOut />
                                 Logout
                             </button>
                         </>
