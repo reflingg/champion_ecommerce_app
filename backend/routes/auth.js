@@ -87,6 +87,67 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Forgot password - verify email and security question
+router.post('/forgot-password', async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const { data: user, error } = await supabase
+            .from('users')
+            .select('id, name, email')
+            .eq('email', email.toLowerCase())
+            .single();
+
+        if (error || !user) {
+            return res.status(404).json({ message: 'No account found with this email' });
+        }
+
+        // Generate a short-lived token for password reset
+        const resetToken = jwt.sign({ id: user.id, purpose: 'reset' }, process.env.JWT_SECRET, { expiresIn: '15m' });
+
+        res.json({
+            message: 'Email verified. You can now reset your password.',
+            resetToken,
+            name: user.name,
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Reset password with token
+router.post('/reset-password', async (req, res) => {
+    try {
+        const { resetToken, newPassword } = req.body;
+
+        if (!newPassword || newPassword.length < 6) {
+            return res.status(400).json({ message: 'Password must be at least 6 characters' });
+        }
+
+        const decoded = jwt.verify(resetToken, process.env.JWT_SECRET);
+        if (decoded.purpose !== 'reset') {
+            return res.status(400).json({ message: 'Invalid reset token' });
+        }
+
+        const salt = await bcrypt.genSalt(12);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        const { error } = await supabase
+            .from('users')
+            .update({ password: hashedPassword })
+            .eq('id', decoded.id);
+
+        if (error) throw error;
+
+        res.json({ message: 'Password reset successfully. You can now login.' });
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            return res.status(400).json({ message: 'Reset link has expired. Please try again.' });
+        }
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // Get profile
 router.get('/profile', protect, async (req, res) => {
     try {

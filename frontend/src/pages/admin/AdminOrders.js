@@ -69,7 +69,7 @@ const AdminOrders = ({ showToast }) => {
                                         <td>#{order._id.slice(-8).toUpperCase()}</td>
                                         <td>{order.user?.name || 'N/A'}<br /><small style={{ color: 'var(--text-light)' }}>{order.user?.email}</small></td>
                                         <td>{order.items?.length} items</td>
-                                        <td>${order.totalAmount?.toFixed(2)}</td>
+                                        <td>₦{order.totalAmount?.toFixed(2)}</td>
                                         <td><span className={`order-status ${order.status}`}>{order.status}</span></td>
                                         <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                                         <td>

@@ -55,7 +55,7 @@ const AdminDashboard = () => {
             <div className="stats-grid">
               <div className="stat-card">
                 <div className="stat-icon" style={{ color: 'var(--primary)' }}><FiDollarSign /></div>
-                <div className="stat-value">${stats?.revenue?.toFixed(2) || '0.00'}</div>
+                <div className="stat-value">₦{stats?.revenue?.toFixed(2) || '0.00'}</div>
                 <div className="stat-label">Total Revenue</div>
               </div>
               <div className="stat-card">
@@ -97,7 +97,7 @@ const AdminDashboard = () => {
                     <tr key={order._id}>
                       <td>#{order._id.slice(-8).toUpperCase()}</td>
                       <td>{order.user?.name || 'N/A'}</td>
-                      <td>${order.totalAmount?.toFixed(2)}</td>
+                      <td>₦{order.totalAmount?.toFixed(2)}</td>
                       <td><span className={`order-status ${order.status}`}>{order.status}</span></td>
                       <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                     </tr>

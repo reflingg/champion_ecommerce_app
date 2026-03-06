@@ -55,6 +55,7 @@ const Login = ({ showToast }) => {
                             required
                         />
                     </div>
+                    <Link to="/forgot-password" className="forgot-password-link">Forgot password?</Link>
                     <button type="submit" className="btn btn-primary" disabled={loading}>
                         {loading ? 'Signing in...' : 'Sign In'}
                     </button>

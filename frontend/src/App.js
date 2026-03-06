@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import CartPage from './pages/CartPage';
@@ -51,6 +52,8 @@ function AppContent() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login showToast={showToast} />} />
                 <Route path="/register" element={<Register showToast={showToast} />} />
+                <Route path="/forgot-password" element={<ForgotPassword showToast={showToast} />} />
+                <Route path="/reset-password" element={<ForgotPassword showToast={showToast} />} />
                 <Route path="/products" element={<Products showToast={showToast} />} />
                 <Route path="/products/:id" element={<ProductDetail showToast={showToast} />} />
                 <Route path="/cart" element={<ProtectedRoute><CartPage showToast={showToast} /></ProtectedRoute>} />

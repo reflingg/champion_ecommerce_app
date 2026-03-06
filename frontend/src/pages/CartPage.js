@@ -53,7 +53,7 @@ const CartPage = ({ showToast }) => {
                             </div>
                             <div className="cart-item-info">
                                 <h3>{item.product?.name}</h3>
-                                <div className="price">${item.product?.price?.toFixed(2)}</div>
+                                <div className="price">₦{item.product?.price?.toFixed(2)}</div>
                                 <div className="cart-item-actions">
                                     <div className="quantity-control">
                                         <button onClick={() => handleUpdateQuantity(item.product?._id, item.quantity - 1)}>
@@ -70,7 +70,7 @@ const CartPage = ({ showToast }) => {
                                 </div>
                             </div>
                             <div style={{ fontWeight: 700, color: 'var(--primary)', whiteSpace: 'nowrap' }}>
-                                ${((item.product?.price || 0) * item.quantity).toFixed(2)}
+                                ₦{((item.product?.price || 0) * item.quantity).toFixed(2)}
                             </div>
                         </div>
                     ))}
@@ -80,7 +80,7 @@ const CartPage = ({ showToast }) => {
                     <h2>Order Summary</h2>
                     <div className="summary-row">
                         <span>Items ({cart.items.length})</span>
-                        <span>${cartTotal.toFixed(2)}</span>
+                        <span>₦{cartTotal.toFixed(2)}</span>
                     </div>
                     <div className="summary-row">
                         <span>Shipping</span>
@@ -88,7 +88,7 @@ const CartPage = ({ showToast }) => {
                     </div>
                     <div className="summary-row total">
                         <span>Total</span>
-                        <span>${cartTotal.toFixed(2)}</span>
+                        <span>₦{cartTotal.toFixed(2)}</span>
                     </div>
                     <button className="btn btn-primary" onClick={() => navigate('/checkout')}>
                         Proceed to Checkout

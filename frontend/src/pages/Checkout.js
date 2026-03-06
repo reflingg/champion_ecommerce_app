@@ -100,7 +100,7 @@ const Checkout = ({ showToast }) => {
                         </div>
 
                         <button type="submit" className="btn btn-primary btn-lg" disabled={loading} style={{ width: '100%' }}>
-                            {loading ? 'Placing Order...' : `Place Order — $${cartTotal.toFixed(2)}`}
+                            {loading ? 'Placing Order...' : `Place Order — ₦${cartTotal.toFixed(2)}`}
                         </button>
                     </form>
                 </div>
@@ -110,7 +110,7 @@ const Checkout = ({ showToast }) => {
                     {cart.items.map((item) => (
                         <div className="summary-row" key={item.product?._id}>
                             <span>{item.product?.name} × {item.quantity}</span>
-                            <span>${((item.product?.price || 0) * item.quantity).toFixed(2)}</span>
+                            <span>₦{((item.product?.price || 0) * item.quantity).toFixed(2)}</span>
                         </div>
                     ))}
                     <div className="summary-row">
@@ -119,7 +119,7 @@ const Checkout = ({ showToast }) => {
                     </div>
                     <div className="summary-row total">
                         <span>Total</span>
-                        <span>${cartTotal.toFixed(2)}</span>
+                        <span>₦{cartTotal.toFixed(2)}</span>
                     </div>
                 </div>
             </div>

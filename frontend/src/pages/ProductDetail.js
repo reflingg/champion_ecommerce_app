@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getProduct } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { FiShoppingCart, FiMinus, FiPlus } from 'react-icons/fi';
+import { FiShoppingCart, FiMinus, FiPlus, FiCopy, FiImage } from 'react-icons/fi';
 import { GiWoodenChair } from 'react-icons/gi';
 
 const ProductDetail = ({ showToast }) => {
@@ -12,8 +12,10 @@ const ProductDetail = ({ showToast }) => {
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
+    const [selectedImage, setSelectedImage] = useState(0);
     const { user } = useAuth();
     const { addItem } = useCart();
+    const isAdmin = user?.role === 'admin';
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -55,11 +57,58 @@ const ProductDetail = ({ showToast }) => {
     if (loading) return <div className="loading"><div className="spinner"></div></div>;
     if (!product) return <div className="page-container"><h2>Product not found</h2></div>;
 
+    const hasImages = product.images && product.images.length > 0;
+
+    const copyImageUrl = (url) => {
+        navigator.clipboard.writeText(url);
+        showToast('Image URL copied!', 'info');
+    };
+
     return (
         <div className="page-container">
             <div className="product-detail">
-                <div className="product-detail-image">
-                    <GiWoodenChair />
+                <div>
+                    <div className="product-detail-image">
+                        {hasImages ? (
+                            <img src={product.images[selectedImage]} alt={product.name} />
+                        ) : (
+                            <GiWoodenChair />
+                        )}
+                    </div>
+                    {hasImages && product.images.length > 1 && (
+                        <div className="product-image-gallery">
+                            {product.images.map((img, idx) => (
+                                <div
+                                    key={idx}
+                                    className={`thumb ${idx === selectedImage ? 'active' : ''}`}
+                                    onClick={() => setSelectedImage(idx)}
+                                >
+                                    <img src={img} alt={`${product.name} ${idx + 1}`} />
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    {isAdmin && hasImages && (
+                        <div className="product-images-info" style={{ marginTop: '16px', padding: '12px', background: 'rgba(184,134,11,0.06)', borderRadius: '8px' }}>
+                            <strong style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+                                <FiImage /> Product Image URLs
+                            </strong>
+                            {product.images.map((url, idx) => (
+                                <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px', fontSize: '0.8rem' }}>
+                                    <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#6B7280' }}>
+                                        {url}
+                                    </span>
+                                    <button
+                                        onClick={() => copyImageUrl(url)}
+                                        style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', padding: '4px' }}
+                                        title="Copy URL"
+                                    >
+                                        <FiCopy />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
                 <div className="product-detail-info">
                     <span className="category-tag" style={{ marginBottom: '12px', display: 'inline-block' }}>
@@ -70,7 +119,7 @@ const ProductDetail = ({ showToast }) => {
                         {'★'.repeat(Math.floor(product.rating))}{'☆'.repeat(5 - Math.floor(product.rating))}
                         <span>({product.numReviews} reviews)</span>
                     </div>
-                    <div className="price">${product.price.toFixed(2)}</div>
+                    <div className="price">₦{product.price.toFixed(2)}</div>
                     <p className="description">{product.description}</p>
 
                     <div className="specs">
@@ -103,7 +152,7 @@ const ProductDetail = ({ showToast }) => {
 
                             <button className="btn btn-primary btn-lg" onClick={handleAddToCart}>
                                 <FiShoppingCart />
-                                Add to Cart — ${(product.price * quantity).toFixed(2)}
+                                Add to Cart — ₦{(product.price * quantity).toFixed(2)}
                             </button>
                         </>
                     )}

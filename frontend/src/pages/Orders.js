@@ -53,7 +53,7 @@ const Orders = () => {
                                 {order.items.map((item, i) => (
                                     <div className="order-item" key={i}>
                                         <span>{item.name} × {item.quantity}</span>
-                                        <span>${(item.price * item.quantity).toFixed(2)}</span>
+                                        <span>₦{(item.price * item.quantity).toFixed(2)}</span>
                                     </div>
                                 ))}
                             </div>
@@ -61,7 +61,7 @@ const Orders = () => {
                                 <Link to="/chat" className="btn btn-outline btn-sm">
                                     <FiMessageSquare /> Chat about this order
                                 </Link>
-                                <div className="order-total">Total: ${order.totalAmount.toFixed(2)}</div>
+                                <div className="order-total">Total: ₦{order.totalAmount.toFixed(2)}</div>
                             </div>
                         </div>
                     ))}
